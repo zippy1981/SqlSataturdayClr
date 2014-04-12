@@ -1,0 +1,1 @@
+Built form this fork https://fastjson.codeplex.com/SourceControl/network/forks/zippy1981/SqlClr/contribution/6596
