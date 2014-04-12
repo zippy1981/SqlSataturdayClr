@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExecSql2Json.cs" />
+    <Compile Include="RaisErrorEx.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSaturdayClr.publish.xml" />
