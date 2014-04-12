@@ -19,6 +19,10 @@ public partial class UserDefinedFunctions
         EnableAnonymousTypes = true,
     };
 
+    /// <externalLink>
+    /// <linkText>Getting Visual Studio to deploy a UDF to Return NVARCHAR(MAX)</linkText>
+    /// <linkUri>http://dba.stackexchange.com/questions/63026/getting-visual-studio-to-deploy-a-udf-to-return-nvarcharmax/63034#63034</linkUri>
+    /// </externalLink>
     [SqlFunction(DataAccess = DataAccessKind.Read, SystemDataAccess = SystemDataAccessKind.Read)]
     [return: SqlFacet(IsFixedLength = false, IsNullable = true, MaxSize = -1)]
     public static SqlString ExecSql2Json([SqlFacet(IsFixedLength = false, IsNullable = true, MaxSize = -1)] SqlString sql)

@@ -67,6 +67,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="fastJSON">
+      <!-- IsModelAware is how an assembly gets added to the DDL script http://dba.stackexchange.com/questions/63028/reference-assembly-in-sqlproj-not-being-deployed-to-server -->
       <HintPath>..\lib\fastJSON.dll</HintPath>
       <GenerateSqlClrDdl>True</GenerateSqlClrDdl>
       <IsModelAware>True</IsModelAware>
