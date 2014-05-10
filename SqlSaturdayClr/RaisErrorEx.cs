@@ -22,7 +22,9 @@ public partial class StoredProcedures
     {
         using (var cn = new SqlConnection("context connection=true"))
         {
-            RaisError(cn, message, severity, state);
+            // Note you can't use overlaods. You get the following error:
+            // More than one method, property or field was found with name 'RaisError' in class 'StoredProcedures' in assembly 'SqlSaturdayClr'. Overloaded methods, properties or fields are not supported.
+            RaisErrorInt(cn, message, severity, state);
         }
     }
 
@@ -38,7 +40,7 @@ public partial class StoredProcedures
     /// <linkText>Canonical StackOverflow answer on parameterizing multi-string answers.</linkText>
     /// <linkUri>http://stackoverflow.com/a/337792/95195</linkUri>
     /// </externalLink>
-    internal static void RaisError(SqlConnection cn, string message, short severity, short state, params object[] args)
+    internal static void RaisErrorInt(SqlConnection cn, string message, short severity, short state, params object[] args)
     {
         using (var cmd = cn.CreateCommand())
         {

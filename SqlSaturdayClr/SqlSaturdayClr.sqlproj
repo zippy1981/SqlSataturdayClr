@@ -24,7 +24,7 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <GenerateCreateScript>True</GenerateCreateScript>
-    <PermissionSet>SAFE</PermissionSet>
+    <PermissionSet>UNSAFE</PermissionSet>
     <Recovery>SIMPLE</Recovery>
     <Trustworthy>True</Trustworthy>
   </PropertyGroup>
@@ -76,8 +76,12 @@
   <ItemGroup>
     <Compile Include="ExecSql2Json.cs" />
     <Compile Include="RaisErrorEx.cs" />
+    <Compile Include="ProcMonDebugOutput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSaturdayClr.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="RaisErrorExParams.sql" />
   </ItemGroup>
 </Project>
