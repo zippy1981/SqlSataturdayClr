@@ -1,10 +1,4 @@
-//------------------------------------------------------------------------------
-// <copyright file="CSSqlStoredProcedure.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
 using System;
-using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Runtime.InteropServices;
 using System.Text;

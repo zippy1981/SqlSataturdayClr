@@ -4,9 +4,13 @@
 // </copyright>
 //------------------------------------------------------------------------------
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Security.Cryptography;
 using Microsoft.SqlServer.Server;
 
 public partial class StoredProcedures
@@ -17,14 +21,27 @@ public partial class StoredProcedures
     /// <param name="message">The message raised by RAISERROR()</param>
     /// <param name="severity">The message severity.</param>
     /// <param name="state">The message state.</param>
+    /// <param name="parameters">The substitution parameters for <paramref name="message"/></param>
     [SqlProcedure]
     public static void RaisError(string message, short severity = 0, short state = 1)
     {
         using (var cn = new SqlConnection("context connection=true"))
         {
+
+            object formatParams = null;
+            /*
+            if (parameters != null && parameters.Count > 0)
+            {
+                
+                formatParams =
+                    (from parameter in (IList<RaisErrorParam>)parameters
+                        orderby parameter.Id 
+                        select parameter.Param).ToArray();
+            }
+             */
             // Note you can't use overlaods. You get the following error:
             // More than one method, property or field was found with name 'RaisError' in class 'StoredProcedures' in assembly 'SqlSaturdayClr'. Overloaded methods, properties or fields are not supported.
-            RaisErrorInt(cn, message, severity, state);
+            RaisErrorInt(cn, message, severity, state, formatParams);
         }
     }
 

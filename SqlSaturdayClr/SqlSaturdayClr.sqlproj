@@ -72,16 +72,25 @@
       <GenerateSqlClrDdl>True</GenerateSqlClrDdl>
       <IsModelAware>True</IsModelAware>
     </Reference>
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExecSql2Json.cs" />
     <Compile Include="RaisErrorEx.cs" />
     <Compile Include="ProcMonDebugOutput.cs" />
+    <Compile Include="Matches.cs" />
+    <Compile Include="RegexUserDefinedFunctions.cs" />
+    <Compile Include="IsValidEmail.cs" />
+    <Compile Include="RaisErrorParams.cs" />
+    <Compile Include="RaisErrorParam.cs" />
+    <Compile Include="RestoreToDefaultLocation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSaturdayClr.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="RaisErrorExParams.sql" />
+    <None Include="Demos.sql" />
   </ItemGroup>
 </Project>
