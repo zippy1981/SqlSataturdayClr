@@ -2,6 +2,7 @@ using System;
 using System.Data.SqlTypes;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.SqlServer.Server;
 using Microsoft.Win32.SafeHandles;
 
 /// <remarks>Adapted from Wintellects code.</remarks>
@@ -46,7 +47,7 @@ public partial class StoredProcedures
         IntPtr lpOutBuffer, uint nOutBufferSize,
         out uint lpBytesReturned, IntPtr lpOverlapped);
 
-    [Microsoft.SqlServer.Server.SqlProcedure]
+    [SqlProcedure]
     public static void ProcMonDebugOutput (SqlString msg)
     {
         if (msg.IsNull) throw new ArgumentNullException("msg");

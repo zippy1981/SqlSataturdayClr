@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.IO;
@@ -20,9 +22,10 @@ public partial class StoredProcedures
     /// </summary>
     /// <param name="dbName">The name of the database</param>
     /// <param name="path">The path of the backup file</param>
+    /// <param name="progressAsRowSet">Set to true to return the restore and upgrade messages in tabular format.</param>
     /// <remarks></remarks>
     [SqlProcedure]
-    public static void RestoreToDefaultLocation(SqlString dbName, SqlString path)
+    public static void RestoreToDefaultLocation(SqlString dbName, SqlString path, SqlBoolean progressAsRowSet)
     {
         using (var cn = new SqlConnection("context connection=true"))
         using (var cmd = cn.CreateCommand())
@@ -73,8 +76,48 @@ public partial class StoredProcedures
                     string.Format("MOVE '{0}' TO '{1}'", file.Name,
                         Path.Combine(file.Log ? defaultLog : defaultData, file.Path))).ToArray();
             cmd.CommandText = string.Concat(cmd.CommandText, string.Join(", ", withMoves));
-            SqlContext.Pipe.ExecuteAndSend(cmd);
+
+            if (progressAsRowSet.IsTrue)
+            {
+                SqlInfoMessageEventHandler infoMessageHandler = (sender, args) =>
+                {
+                    SqlContext.Pipe.SendResultsStart(GetMessageRecord());
+                    foreach (var msg in args.Message.Split('\n'))
+                    {
+                        SqlContext.Pipe.SendResultsRow(GetMessageRecord(msg, args.Source));
+                    }
+                    SqlContext.Pipe.SendResultsEnd();
+                };
+
+                cn.InfoMessage += infoMessageHandler;
+                cmd.ExecuteNonQuery();
+                cn.InfoMessage -= infoMessageHandler;
+            }
+            else
+            {
+                SqlContext.Pipe.ExecuteAndSend(cmd);
+            }
             cn.Close();
         }
+    }
+
+    private static SqlDataRecord GetMessageRecord()
+    {
+        return new SqlDataRecord
+            (new SqlMetaData("Message", SqlDbType.NVarChar, -1),
+                new SqlMetaData("Source", SqlDbType.NVarChar, -1),
+                new SqlMetaData("Timestamp", SqlDbType.DateTime));
+    }
+
+    private static SqlDataRecord GetMessageRecord(string message, string source)
+    {
+        var record = new SqlDataRecord
+                    (new SqlMetaData("Message", SqlDbType.NVarChar, -1),
+                        new SqlMetaData("Source", SqlDbType.NVarChar, -1),
+                        new SqlMetaData("Timestamp", SqlDbType.DateTime));
+        record.SetString(0, message);
+        record.SetString(1, source);
+        record.SetDateTime(2, DateTime.Now);
+        return record;
     }
 }
